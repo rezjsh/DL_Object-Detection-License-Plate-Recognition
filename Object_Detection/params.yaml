@@ -1,1 +1,5 @@
-key: value
+data_ingestion:
+  workspace: "roboflow-universe-projects"
+  project_name: "license-plate-recognition-rxg4e"
+  version: "11"
+  format: "voc"
