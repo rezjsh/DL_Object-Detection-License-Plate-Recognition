@@ -10,15 +10,15 @@ class DataIngestionPipeline:
     """
     Pipeline stage for data ingestion. Downloads the dataset from Roboflow and extracts it to the given directory.
     """
-    def __init__(self, config_manager: ConfigurationManager):
+    def __init__(self, config: ConfigurationManager):
         
         """
         Initializes the DataIngestionPipeline.
 
         Args:
-            config_manager (ConfigurationManager): The configuration manager instance.
+            config (ConfigurationManager): The configuration manager instance.
         """
-        self.config = config_manager.get_data_ingestion_config()
+        self.config = config.get_data_ingestion_config()
         self.data_ingestion = RoboflowDatasetDownloader(config=self.config)
         
 
@@ -36,9 +36,9 @@ class DataIngestionPipeline:
         try:
             
             logger.info("Starting data ingestion pipeline")
-            self.data_ingestion.download(api_key=API_KEY)
+            dataset = self.data_ingestion.download(api_key=API_KEY)
             logger.info("Data ingestion pipeline completed")
-            return self.config
+            return dataset
         except Exception as e:
             logger.error(f"Error in data ingestion pipeline: {e}", exc_info=True)
             raise e
@@ -46,7 +46,7 @@ class DataIngestionPipeline:
 if __name__ == '__main__':
     try:
         config_manager_ingestion = ConfigurationManager()
-        data_ingestion_pipeline = DataIngestionPipeline(config=config_manager_ingestion)
+        data_ingestion_pipeline = DataIngestionPipeline(config_manager=config_manager_ingestion)
         data_ingestion_pipeline.run_pipeline()
     except Exception as e:
         logger.error(f"Error in data ingestion pipeline: {e}")
