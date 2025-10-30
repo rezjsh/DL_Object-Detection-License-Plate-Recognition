@@ -1,6 +1,7 @@
 from src.utils.logging_setup import logger
 from src.config.configuration import ConfigurationManager
 from src.pipeline.stage_01_data_ingestion import DataIngestionPipeline
+from src.pipeline.stage_02_data_validation import DataValidationPipeline
 if __name__ == '__main__':
     try:
         config_manager = ConfigurationManager()
@@ -12,6 +13,12 @@ if __name__ == '__main__':
         data_ingestion_pipeline.run_pipeline()
         logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
 
+        # --- Data Validation Stage ---
+        STAGE_NAME = "Data Validation Stage"
+        logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+        data_validation_pipeline = DataValidationPipeline(config=config_manager)
+        data_validation_pipeline.run_pipeline()
+        logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
     except Exception as e:
         logger.error(f"Error occurred during {STAGE_NAME} stage: {e}")
         raise e
