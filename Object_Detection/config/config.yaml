@@ -1,2 +1,10 @@
 data_ingestion:
   download_location: data/
+
+data_validation:
+  data_dir: data/License-Plate-Recognition-11/
+  required_files:
+    - train
+    - test
+    - valid
+  status_file: artifacts/data_validation/data_validation_status.txt
