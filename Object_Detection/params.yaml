@@ -3,3 +3,9 @@ data_ingestion:
   project_name: "license-plate-recognition-rxg4e"
   version: "11"
   format: "voc"
+
+data_validation:
+  required_files:
+    - train
+    - test
+    - valid
