@@ -27,6 +27,6 @@ class RoboflowDatasetDownloader:
         rf = Roboflow(api_key=api_key)
         project = rf.workspace(self.config.workspace).project(self.config.project_name)
         version = project.version(self.config.version)
-        self.dataset = version.download(format=self.config.format, location=self.config.download_location)
+        self.dataset = version.download(model_format=self.config.format, location=self.config.download_location)
         logger.info(f"Dataset downloaded and extracted to: {self.dataset.location}")
         return self.dataset
