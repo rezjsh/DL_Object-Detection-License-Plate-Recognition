@@ -1,4 +1,6 @@
-from Object_Detection.src.entity.config_entity import DataIngestionConfig
+import os
+from pathlib import Path
+from src.entity.config_entity import DataIngestionConfig, DataValidationConfig
 from src.constants.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from src.utils.helpers import create_directory, read_yaml_file
 from src.utils.logging_setup import logger
@@ -30,3 +32,23 @@ class ConfigurationManager(metaclass=SingletonMeta):
         )
         logger.info(f"Data ingestion config created: {data_ingestion_config}")
         return data_ingestion_config
+
+    def get_data_validation_config(self) -> DataValidationConfig:
+        logger.info("Getting data validation config")
+        config = self.config.data_validation
+        params = self.params.data_validation
+        logger.info(f"Data validation config: {config}")
+        logger.info(f"Data validation params: {params}")
+
+        dirs_to_create = [os.path.dirname(config.status_file)]
+        logger.info(f"Dirs to create: {dirs_to_create}")
+        create_directory(dirs_to_create)
+        logger.info("Creating data validation config")
+
+        data_validation_config = DataValidationConfig(
+            data_dir=config.data_dir,
+            required_files=params.required_files,
+            status_file=Path(config.status_file)
+        )
+        logger.info(f"Data validation config created: {data_validation_config}")
+        return data_validation_config
